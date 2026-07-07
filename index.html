@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tourist Trash — Leave it better than you found it</title>
+<meta name="description" content="Travelers meet up to clean the places they love visiting — organized by locals who know where help is needed.">
+<style>
+  :root {
+    --ocean: #0E7490;
+    --deep: #13323B;
+    --sand: #F3EADA;
+    --coral: #E4572E;
+    --coral-ink: #B23A1D;
+    --foam: #F8FBFC;
+    --ink: var(--deep);
+    --bg: var(--foam);
+    --card: #FFFFFF;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #EAF3F5;
+      --bg: #0D2229;
+      --sand: #16333C;
+      --card: #13323B;
+      --ocean: #35A3BF;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--ocean); }
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--coral);
+    outline-offset: 3px;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 72px 0; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--coral-ink);
+  }
+  @media (prefers-color-scheme: dark) { .eyebrow { color: var(--coral); } }
+  h1, h2 { font-weight: 900; letter-spacing: -0.02em; line-height: 1.08; }
+  h1 { font-size: clamp(2.4rem, 6vw, 4rem); margin: 12px 0 20px; }
+  h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 10px 0 16px; }
+  .lede { font-size: 1.15rem; max-width: 34em; opacity: 0.92; }
+
+  .btn {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 1.02rem;
+    padding: 14px 26px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(19, 50, 59, 0.18); }
+  .btn-coral { background: var(--coral); color: #fff; }
+  .btn-ghost { border: 2px solid var(--ocean); color: var(--ocean); }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 84px 0 64px; }
+  .hero .wrap {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+
+  /* The signature: a flyer pinned to the page */
+  .flyer {
+    background: #FFFDF7;
+    color: #2A2A24;
+    font-family: var(--mono);
+    padding: 34px 28px 28px;
+    max-width: min(340px, 100%);
+    margin: 0 auto;
+    transform: rotate(2.2deg);
+    box-shadow: 0 12px 32px rgba(19, 50, 59, 0.22);
+    border-radius: 2px;
+    position: relative;
+    transition: transform 0.25s ease;
+  }
+  .flyer:hover { transform: rotate(0deg); }
+  .flyer::before {                 /* tape strip */
+    content: "";
+    position: absolute;
+    top: -14px; left: 50%;
+    width: 110px; height: 30px;
+    transform: translateX(-50%) rotate(-1.5deg);
+    background: rgba(243, 234, 218, 0.75);
+    border-left: 1px dashed rgba(19,50,59,0.15);
+    border-right: 1px dashed rgba(19,50,59,0.15);
+  }
+  .flyer h3 {
+    font-size: 1.3rem;
+    letter-spacing: 0.06em;
+    text-align: center;
+    color: var(--coral-ink);
+  }
+  .flyer .f-tag { text-align: center; font-size: 0.72rem; margin: 4px 0 18px; letter-spacing: 0.04em; }
+  .flyer .f-when {
+    border-top: 2px solid #2A2A24;
+    border-bottom: 2px solid #2A2A24;
+    padding: 12px 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .flyer .f-details { font-size: 0.78rem; margin-top: 16px; line-height: 1.9; }
+  .flyer .f-details span { color: var(--coral-ink); }
+
+  /* ---------- Wave divider ---------- */
+  .wave { display: block; width: 100%; height: 36px; }
+  .wave path { fill: none; stroke: var(--ocean); stroke-width: 2.5; opacity: 0.5; }
+
+  /* ---------- How it works ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 36px;
+  }
+  .step { background: var(--card); border-radius: 14px; padding: 28px 24px; box-shadow: 0 3px 14px rgba(19,50,59,0.08); }
+  .step .n {
+    font-family: var(--mono);
+    font-weight: 700;
+    color: var(--ocean);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+  }
+  .step h3 { font-size: 1.25rem; margin: 8px 0 8px; font-weight: 800; }
+  .step p { font-size: 0.98rem; opacity: 0.9; }
+
+  /* ---------- Find / chapters ---------- */
+  .sandband { background: var(--sand); }
+  .chapter-card {
+    background: var(--card);
+    border-left: 6px solid var(--coral);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 28px;
+    max-width: 560px;
+    box-shadow: 0 3px 14px rgba(19,50,59,0.08);
+  }
+  .chapter-card .where { font-weight: 800; font-size: 1.2rem; }
+  .chapter-card .status { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral-ink); }
+  @media (prefers-color-scheme: dark) { .chapter-card .status { color: var(--coral); } }
+  .chapter-card.live { border-left-color: var(--ocean); }
+  .chapter-card.live .status { color: var(--ocean); }
+  .chapter-card.dormant { opacity: 0.62; border-left-color: #9AA7AB; }
+  .chapter-card .cc-meta { font-family: var(--mono); font-size: 0.85rem; margin-top: 6px; line-height: 1.9; }
+  .chapter-card .cc-join { display: inline-block; margin-top: 10px; font-weight: 700; }
+  .follow-row { margin-top: 28px; }
+
+  /* ---------- Impact strip ---------- */
+  .impact { padding: 56px 0; text-align: center; }
+  .impact-tiles { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+  .tile { background: var(--card); border-radius: 14px; padding: 22px 34px; min-width: 150px; box-shadow: 0 3px 14px rgba(19,50,59,0.08); }
+  .tile .num { font-weight: 900; font-size: 2.2rem; letter-spacing: -0.02em; color: var(--ocean); font-family: var(--mono); }
+  .tile .lbl { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; margin-top: 4px; }
+
+  /* ---------- Start a chapter ---------- */
+  .host-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; align-items: start; }
+  .kit { background: var(--card); border-radius: 14px; padding: 28px; box-shadow: 0 3px 14px rgba(19,50,59,0.08); }
+  .kit h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 12px; }
+  .kit ul { list-style: none; }
+  .kit li { padding: 7px 0 7px 30px; position: relative; font-size: 0.98rem; }
+  .kit li::before { content: "✔"; position: absolute; left: 4px; color: var(--ocean); font-weight: 700; }
+  .charter-mini { margin-top: 22px; font-size: 0.95rem; }
+  .charter-mini li { margin: 8px 0 8px 20px; }
+  .host-cta { margin-top: 26px; }
+
+  /* ---------- Ethics strip ---------- */
+  .ethics { background: var(--deep); color: #EAF3F5; text-align: center; padding: 56px 0; }
+  .ethics p.big { font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 800; }
+  .ethics p.small { max-width: 46em; margin: 14px auto 0; opacity: 0.85; font-size: 1rem; }
+
+  footer { padding: 44px 0 60px; text-align: center; font-size: 0.95rem; }
+  footer .tag { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-top: 10px; }
+
+  @media (max-width: 760px) {
+    section { padding: 52px 0; }
+    .hero { padding: 56px 0 48px; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 44px; }
+    .flyer { transform: rotate(1.5deg); }
+    .steps, .host-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Beach cleanups for people passing through</p>
+      <h1>Pick up trash.<br>Make friends.<br>Earn the beach.</h1>
+      <p class="lede">Travelers meet up to clean the places they love visiting — organized by locals who know where help is needed. One hour of picking, then coffee with people worth meeting.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-coral" href="#host">Start a chapter</a>
+        <a class="btn btn-ghost" href="#find">Find a cleanup</a>
+      </div>
+    </div>
+    <div class="flyer" aria-label="Sample cleanup flyer">
+      <h3>TOURIST TRASH</h3>
+      <p class="f-tag">Leave it better than you found it.</p>
+      <p class="f-when">BEACH CLEANUP<br>EVERY SATURDAY · 9:00 AM<br>MEET AT THE FLAGPOLE</p>
+      <p class="f-details">
+        → gloves &amp; bags provided<br>
+        → one hour, then the hang<br>
+        → just show up<br>
+        <span>meet travelers · meet locals</span>
+      </p>
+    </div>
+  </div>
+</header>
+
+<svg class="wave" viewBox="0 0 1200 36" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,18 C100,2 200,34 300,18 C400,2 500,34 600,18 C700,2 800,34 900,18 C1000,2 1100,34 1200,18"/>
+</svg>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>The easiest good thing you'll do all trip</h2>
+    <div class="steps">
+      <div class="step">
+        <p class="n">STEP 1</p>
+        <h3>Show up</h3>
+        <p>Same beach, same time, every week. No signup, no fee, no gear — gloves and bags are waiting for you at the meeting point.</p>
+      </div>
+      <div class="step">
+        <p class="n">STEP 2</p>
+        <h3>Clean for an hour</h3>
+        <p>Grab a bag, grab a partner from another dorm, and work the tide line. Locals pick the spot — they know where the help is needed.</p>
+      </div>
+      <div class="step">
+        <p class="n">STEP 3</p>
+        <h3>Stay for the hang</h3>
+        <p>Group photo with the full bags, then coffee. You'll leave with cleaner sand, new friends, and the best story at dinner.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="find" class="sandband">
+  <div class="wrap">
+    <p class="eyebrow">Find a cleanup</p>
+    <h2>Chapters</h2>
+    <p class="lede">Every chapter is a standing weekly event run by a local host. Roll into town, check the schedule, show up.</p>
+    <div id="chapters">
+      <noscript>
+        <div class="chapter-card">
+          <p class="where">San Juan del Sur, Nicaragua 🇳🇮 — and growing</p>
+          <p>The live chapter list needs JavaScript — or just check our Instagram for every chapter's schedule.</p>
+        </div>
+      </noscript>
+    </div>
+    <p class="follow-row"><a class="btn btn-ghost" href="https://www.instagram.com/tourist.trash/">Follow along on Instagram</a></p>
+  </div>
+</section>
+
+<section id="host">
+  <div class="wrap">
+    <p class="eyebrow">Start a chapter</p>
+    <h2>Locals &amp; hostels: we bring the hands, you bring the beach</h2>
+    <div class="host-grid">
+      <div>
+        <p class="lede">Run a hostel, dive shop, surf school, or just love your beach? Host a standing weekly cleanup and become the place travelers talk about. It costs about $5 a week in bags and gloves — we hand you everything else.</p>
+        <ul class="charter-mini">
+          <li><strong>Safety first, every event</strong> — a 2-minute brief and a sign-in sheet, both written for you.</li>
+          <li><strong>The trash actually leaves the beach</strong> — you sort out disposal before your first event; we show you how.</li>
+          <li><strong>Locals lead</strong> — you pick the site, you set the pace. If a local group already cleans here, we join them, not compete.</li>
+        </ul>
+        <p class="host-cta"><a class="btn btn-coral" href="mailto:kylelhk@gmail.com?subject=Host%20a%20Tourist%20Trash%20chapter&body=Town%20%2B%20beach%3A%0AVenue%20(if%20any)%3A%0AProposed%20weekly%20slot%3A%0AWhere%20will%20the%20collected%20trash%20go%3F%0AAny%20existing%20cleanup%20groups%20in%20town%3F">Apply to host a chapter</a></p>
+      </div>
+      <div class="kit">
+        <h3>The cleanup-in-a-box kit — free</h3>
+        <ul>
+          <li>One-page quick-start &amp; event checklist</li>
+          <li>Safety brief script &amp; waiver template</li>
+          <li>Disposal planning worksheet</li>
+          <li>Flyer, captions &amp; WhatsApp templates</li>
+          <li>Brand kit &amp; your spot on the chapter map</li>
+          <li>Cross-promotion of every event photo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="impact" id="impact" hidden>
+  <div class="wrap">
+    <p class="eyebrow">So far, together</p>
+    <h2>The receipts</h2>
+    <div class="impact-tiles">
+      <div class="tile"><div class="num" id="i-events">0</div><div class="lbl">cleanups</div></div>
+      <div class="tile"><div class="num" id="i-bags">0</div><div class="lbl">bags filled</div></div>
+      <div class="tile"><div class="num" id="i-kg">0</div><div class="lbl">~kg off the beach</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="ethics">
+  <div class="wrap">
+    <p class="big">Locals lead. We're just the extra hands.</p>
+    <p class="small">Hosts choose the sites, set the schedule, and direct the work — travelers are guests contributing labor, not saviors passing through. Where a local cleanup crew already exists, we partner with them or get out of the way.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Say hi: <a href="mailto:kylelhk@gmail.com">kylelhk@gmail.com</a></p>
+    <p class="tag">Tourist Trash · Leave it better than you found it.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var data = window.TT_DATA;
+  if (!data) return;
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  // --- Chapter directory ---
+  var box = document.getElementById("chapters");
+  var order = { live: 0, launching: 1, dormant: 2 };
+  data.chapters
+    .slice()
+    .sort(function (a, b) {
+      var ra = a.status in order ? order[a.status] : 3;
+      var rb = b.status in order ? order[b.status] : 3;
+      return ra - rb;
+    })
+    .forEach(function (ch) {
+      var card = document.createElement("div");
+      card.className = "chapter-card " + esc(ch.status);
+      var where = esc(ch.town) + ", " + esc(ch.country) + " " + (ch.flag || "");
+      var html = "";
+      if (ch.status === "live") {
+        html += '<p class="status">Live · every ' + esc(ch.day) + "</p>";
+        html += '<p class="where">' + where + "</p>";
+        html += '<p class="cc-meta">🗓 ' + esc(ch.day) + "s · " + esc(ch.time) +
+                "<br>📍 " + esc(ch.beach) + " — meet at " + esc(ch.meetingPoint) +
+                (ch.host ? "<br>🏠 hosted by " + esc(ch.host) : "") + "</p>";
+        if (ch.whatsapp) {
+          html += '<a class="cc-join" href="' + esc(ch.whatsapp) + '">Join the chapter WhatsApp →</a>';
+        }
+      } else if (ch.status === "dormant") {
+        html += '<p class="status">Back soon</p>';
+        html += '<p class="where">' + where + "</p>";
+        html += "<p>This chapter is between seasons. Follow along — one message turns it back on.</p>";
+      } else {
+        html += '<p class="status">Launching</p>';
+        html += '<p class="where">' + where + "</p>";
+        html += "<p>Getting set up now" + (ch.host ? " with " + esc(ch.host) : "") +
+                ". Follow along to catch the first cleanup — or bring Tourist Trash to your town below.</p>";
+      }
+      card.innerHTML = html;
+      box.appendChild(card);
+    });
+
+  // --- Impact strip (hidden until there's something to show) ---
+  var im = data.impact;
+  if (im && im.events > 0) {
+    document.getElementById("i-events").textContent = im.events.toLocaleString();
+    document.getElementById("i-bags").textContent = im.bags.toLocaleString();
+    document.getElementById("i-kg").textContent = im.kg.toLocaleString();
+    document.getElementById("impact").hidden = false;
+  }
+})();
+</script>
+</body>
+</html>
