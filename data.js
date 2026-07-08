@@ -1,5 +1,5 @@
 /*
- * Tourist Trash — chapter & impact data (platform v0)
+ * Good Tide Club — chapter & impact data (platform v0)
  *
  * THIS IS THE ONLY FILE YOU EDIT to update the site. Then redeploy.
  *
